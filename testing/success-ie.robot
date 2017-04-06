@@ -1,15 +1,15 @@
 *** Settings ***
-Documentation     A test suite For Simple Robot test
+Documentation     A test suite For Simple Robot test on Internet Explorer
 ...
 ...               This test is as simple as possible for RobotFramework testing purposes when we can make sure the Robot is working.
 ...               To run perform robot success.robot from CMD
 Library           Selenium2Library
 
 *** Test Cases ***
-Perform Simple Search
+Perform Simple Search IE
     Open Browser And Website 
     Do Search
-   	#[Teardown]    Close Browser
+   	[Teardown]    Close Browser
  
 
 *** Keywords ***
