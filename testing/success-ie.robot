@@ -22,7 +22,7 @@ Open Browser And Website
 
 Do Search
     Input Text    q    ${SEARCH_KEYWORD} 
-    Click Element   btnK 
+    Click Element   btnG 
 
 
 *** Variables ***
