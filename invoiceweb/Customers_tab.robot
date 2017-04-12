@@ -24,7 +24,7 @@ ${documents_table_customer_card}    id=results-table
 
 *** Test Cases ***
 Load_IW_login
-    Open Browser    https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard    browser=firefox    #load IW
+    Open Browser    https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard    browser=ie    #load IW
     Maximize Browser window
     Input Text    name=ctl00$ContentPlaceHolder1$UsernameTextBox    jurgita.beisiniene@lindorff.com    #login
     Input Password    name=ctl00$ContentPlaceHolder1$PasswordTextBox    Lindorff123
