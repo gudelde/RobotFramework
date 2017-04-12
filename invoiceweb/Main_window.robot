@@ -30,7 +30,7 @@ ${search_result_items}    css=tr.tody.#search-results-table    # xpath=//html/bo
 
 *** Test Cases ***
 Load_IW_login
-    Open Browser    https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard    browser=google chrome    #load IW
+    Open Browser    https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard    browser=ie    #load IW
     Maximize Browser window
     Input Text    name=ctl00$ContentPlaceHolder1$UsernameTextBox    jurgita.beisiniene@lindorff.com    #login
     Input Password    name=ctl00$ContentPlaceHolder1$PasswordTextBox    Lindorff123
