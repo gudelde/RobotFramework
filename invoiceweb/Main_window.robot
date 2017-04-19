@@ -157,113 +157,11 @@ Get_LIS_client_data
     Set Suite Variable    ${INV_ReferenceNo_LIS}
     Click Element    ${access-logo}
     Wait Until Page Contains    Search for Documents
-
-Get_APTIK_client_data
-    Run Keyword    Select_APTIK_client    #select client
-    ${CUST_CustomerNo_APT}    Get_LIS_APT_cust_no    Customers    1
-    Set Suite Variable    ${CUST_CustomerNo_APT}
-    ${CUST_CustomerName_APT}    Get_cust_name    Customers    2
-    Set Suite Variable    ${CUST_CustomerName_APT}
-    ${CUST_CustomerID_APT}    Get_cust_id    Customers    3
-    Set Suite Variable    ${CUST_CustomerID_APT}
-    ${INV_InvoiceNO_APT}    ${INV_CustomerNO_APT}    ${INV_CustomerName_APT}    Get_inv_no    Invoices    1    3
-    ...    4
-    Set Suite Variable    ${INV_InvoiceNO_APT}
-    ${REM_ReminderNO_APT}    ${REM_CustomerNO_APT}    ${REM_CustomerName_APT}    Get_rem_no    Reminders    1    2
-    ...    3
-    Set Suite Variable    ${REM_ReminderNO_APT}
-    ${INV_ReferenceNo_APT}    ${INV_InvoiceNoForRefNo_APT}    Get_ExistingReferenceNo
-    Log    ${INV_ReferenceNo_APT}
-    Set Suite Variable    ${INV_ReferenceNo_APT}
-    Click Element    ${access-logo}
-    Wait Until Page Contains    Search for Documents
-
-Search_returns_0_results_NAV
-    Run Keyword    Select_APTIK_client    #select client
-    Input Text    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[2]/div[2]/div[1]/form/input[2]    ${CUST_CustomerNo_NAV}    #search for a customer number
-    Sleep    1s
-    Click Element    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[2]/div[2]/div[1]/form/input[4]
-    Wait until element is visible    ${info_text}
-    Element Text Should Be    ${info_text}    Your search did not return any results.
-    Click Element    ${access-logo}    #return to main page
-    Wait Until Page Contains    Search for Documents
-    Input Text    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[2]/div[2]/div[3]/form/input[1]    ${CUST_CustomerName_NAV}    #search for a customer name
-    Sleep    1s
-    Click Element    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[2]/div[2]/div[3]/form/input[3]
-    Wait until element is visible    ${info_text}
-    Element Text Should Be    ${info_text}    Your search did not return any results.
-    Click Element    ${access-logo}    #return to main page
-    Wait Until Page Contains    Search for Documents
-    Input Text    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[2]/div[2]/div[2]/form/input[2]    ${CUST_CustomerId_NAV}    #search for a customer ID
-    Sleep    1s
-    Click Element    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[2]/div[2]/div[2]/form/input[4]
-    Wait until element is visible    ${info_text}
-    Element Text Should Be    ${info_text}    Your search did not return any results.
-    Click Element    ${access-logo}    #return to main page
-    Wait Until Page Contains    Search for Documents
-    Input Text    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[1]/form/input[2]    ${INV_InvoiceNo_NAV}    #search for invoice number
-    Sleep    1s
-    Click Element    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[1]/form/input[4]
-    Wait until element is visible    ${info_text}
-    Element Text Should Be    ${info_text}    Your search did not return any results.
-    Click Element    ${access-logo}    #return to main page
-    Wait Until Page Contains    Search for Documents
-    Input text    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[2]/form/input[2]    ${REM_ReminderNo_NAV}    #search for reminder number
-    Click Element    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[2]/form/input[3]
-    #Wait Until Element Is Visible    ${waiting_for_results}
-    #Wait Until Element Is Not Visible    ${waiting_for_results}    15
-    ${result_table}    Run Keyword And Return Status    Page Should Contain Element    ${search_results}
-    ${result_card}    Run Keyword And Return Status    Page Should Contain Element    ${InfoRibbon}
-    ${result_message}    Run Keyword And Return Status    Page Should Contain    Your search did not return any results.
-    Log To Console    ${result_table}, ${result_card}, ${result_message}
-    Run Keyword If    ${result_message}    pass
-    Run Keyword If    ${result_card}    Get Value    ${REM_rem_no}    ${result_card_rem_no}
-    Run Keyword If    ${result_card}    Should Be True    '${REM_ReminderNo_NAV}'!='${result_card_rem_no}'
-    Run Keyword If    ${result_table}    compare_rem_no    ${REM_ReminderNo_NAV}
-    Click Element    ${access-logo}    #return to main page
-    Wait Until Page Contains    Search for Documents
-    Input text    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[3]/form/input[2]    ${INV_ReferenceNo_NAV}
-    Sleep    1s
-    Click Element    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[3]/form/input[4]
-    Wait until element is visible    ${info_text}
-    Element Text Should Be    ${info_text}    Your search did not return any results.
-    Close browser
-
-Search_returns_list_NAV
-    Click Element    xpath=//html/body/div[1]/div[1]/div[1]/div/div[1]/div[1]    #open clients list
-    Wait until element is visible    Link=KSS Energia Oy
-    Click Element    Link=KSS Energia Oy    #select client
-    Wait until element is visible    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[1]/div
-    ${CustomerNo_part}    Get Substring    ${CUST_CustomerNo_NAV}    -3    #leaves 3 last characters
-    Input Text    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[2]/div[2]/div[1]/form/input[2]    ${CustomerNo_part}    #search for a customer number
-    Click Element    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[2]/div[2]/div[1]/form/input[4]
-    Wait Until Element Is Visible    id=search-results-container
-    ${show_all_exist}    Run Keyword And Return Status    Page Should Contain Element    id=show-all-search-results
-    Run Keyword If    ${show_all_exist}    Page_bottom_quick
-    Wait Until Page Contains    End of list reached
-    Run Keyword    compare_cust_no
-
-Search_returns_card_NAV
-    Click Element    xpath=//html/body/div[1]/div[1]/div[1]/div/div[1]/div[1]    #open clients list
-    Wait until element is visible    Link=KSS Energia Oy
-    Click Element    Link=KSS Energia Oy    #select client
-    Wait until element is visible    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[1]/div
-    Input Text    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[1]/form/input[2]    ${INV_InvoiceNo_NAV}    #search for invoice number
-    Click Element    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[1]/form/input[4]
-    #Wait until element is visible    ${waiting_for_results}
-    Wait until element is visible    id=sticky
-    Element Text Should Be    xpath=//html/body/div[1]/div[3]/div/div[3]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[1]/td[2]    ${INV_InvoiceNo_NAV}
-
+ 
 Logout
     Page Should Contain Element    ${sign_out_button}
-    Click Element    ${sign_out_button}
-    Wait Until Page Contains Element    ${sign_out_page_title}
-    Element Text Should Be    ${sign_out_page_title}    Sign-Out Page
-    Page Should Not Contain Element    ${sign_out_button}
-    Page Should Contain Element    ${login_in_again_link}
-    Click Element    ${login_in_again_link}
-    Wait Until Page Contains Element    ${sign_out_page_title}
-    Element Text Should Be    ${sign_out_page_title}    Sign In
+    Click Element    ${sign_out_button} 
+    Page Should Not Contain Element    ${sign_out_button} 
 
 *** Keywords ***
 Page_bottom
@@ -417,7 +315,7 @@ Get_ExistingReferenceNo
     \    Run Keyword If    ${ProperValues}    Exit For Loop
     Run Keyword And Continue On Failure    Should Be True    ${ProperValues}
     Click Link    ${InvoiceNo_forRefNo}
-    Wait Until Page Contains Element    ${InfoRibbon}
+    #Wait Until Page Contains Element    ${InfoRibbon}
     ${ReferenceNo}=    Get Text    ${INV_RefNoValue}
     [Return]    ${ReferenceNo}    ${InvoiceNo_forRefNo}
 
