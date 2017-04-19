@@ -3,7 +3,7 @@ Library           Selenium2Library
 Library           String
 
 *** Variables ***
-${search_button}    name=submit
+${search_button}    submit
 ${search_results}    id=search-results-table
 ${show_all}       id=show-all-search-results
 ${end_of_list}    css=div.info-text.end-of-list-text
@@ -27,14 +27,21 @@ ${search_results_cels}    xpath=id('search-results-table')
 ${info_text}      css=div.info-text
 ${REM_rem_no}     css=td.value.wrap-word    # xpath=//html/body/div[1]/div[3]/div/div[3]/div[1]/div[1]/div[3]/div[2]/table/tbody/tr[1]/td[2]
 ${search_result_items}    css=tr.tody.#search-results-table    # xpath=//html/body/div[1]/div[3]/div/div[2]/table/tbody/tr
+${websiteurl}	https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard
+${browser}	ie
+${DELAY}	1
 
 *** Test Cases ***
 Load_IW_login
-    Open Browser    https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard    browser=ie    #load IW
+    Open Browser    ${websiteurl}    browser=${browser}    #load IW
     Maximize Browser window
+	Set Selenium Speed    ${DELAY} 
     Input Text    name=ctl00$ContentPlaceHolder1$UsernameTextBox    jurgita.beisiniene@lindorff.com    #login
     Input Password    name=ctl00$ContentPlaceHolder1$PasswordTextBox    Lindorff123
     Click Element    ${sign_in_button}
+	Wait Until Page Contains Element	id=settings-button
+	Click Element    id=settings-button
+	Click Element    xpath=//div[@id='settings-menu']/ul/li[1]/a
     Wait Until Page Contains    Search for Documents    15
 
 Check_clients_list
@@ -62,8 +69,8 @@ Open_page_return_back_NAVISION_client
     Click Link    Customers    #open customers tab
     Wait Until Page Contains Element    ${CUST_cust_no_search_field}    #customers tab should open
     Click Element    ${search_button}    #click search
-    Wait until element is visible    ${waiting_for_results}
-    Wait until element is not visible    ${waiting_for_results}
+    #Wait until element is visible    ${waiting_for_results}
+    #Wait until element is not visible    ${waiting_for_results}
     Wait until element is visible    ${search_results}
     Click Element    xpath=//html/body/div[1]/div[3]/div/div[2]/table/tbody/tr[1]/td[1]/a    #open the first customer card
     Wait until element is visible    css=div.label    #check if customer card is opened, page should contain customer number
@@ -76,8 +83,8 @@ Open_page_return_back_NAVISION_client
     Click Link    Invoices    #open invoices tab
     Wait Until Page Contains Element    ${INV_doc_no_search_field}    #invoices tab should open
     Click Element    ${search_button}    #click search
-    Wait until element is visible    ${waiting_for_results}
-    Wait until element is not visible    ${waiting_for_results}
+    #Wait until element is visible    ${waiting_for_results}
+    #Wait until element is not visible    ${waiting_for_results}
     Wait until element is visible    ${search_results}
     Click Element    xpath=//html/body/div[1]/div[3]/div/div[2]/table/tbody/tr[1]/td[1]/a    #open the first invoice card
     Wait until element is visible    css=td.label.no-wrap    #check if invoice card is opened, page should contain invoice number
@@ -90,8 +97,8 @@ Open_page_return_back_NAVISION_client
     Click Link    Reminders    #open reminders tab
     Wait Until Page Contains Element    ${REM_rem_no_search_field}    #reminders tab should open
     Click Element    ${search_button}    #click search
-    Wait until element is visible    ${waiting_for_results}
-    Wait until element is not visible    ${waiting_for_results}
+    #Wait until element is visible    ${waiting_for_results}
+    #Wait until element is not visible    ${waiting_for_results}
     Wait until element is visible    ${search_results_cels}
     ${first_rem_item}    Get Table Cell    ${search_results_cels}    2    1
     Click Link    ${first_rem_item}    #open the first reminder card
@@ -203,8 +210,8 @@ Search_returns_0_results_NAV
     Wait Until Page Contains    Search for Documents
     Input text    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[2]/form/input[2]    ${REM_ReminderNo_NAV}    #search for reminder number
     Click Element    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[2]/form/input[3]
-    Wait Until Element Is Visible    ${waiting_for_results}
-    Wait Until Element Is Not Visible    ${waiting_for_results}    15
+    #Wait Until Element Is Visible    ${waiting_for_results}
+    #Wait Until Element Is Not Visible    ${waiting_for_results}    15
     ${result_table}    Run Keyword And Return Status    Page Should Contain Element    ${search_results}
     ${result_card}    Run Keyword And Return Status    Page Should Contain Element    ${InfoRibbon}
     ${result_message}    Run Keyword And Return Status    Page Should Contain    Your search did not return any results.
@@ -243,7 +250,7 @@ Search_returns_card_NAV
     Wait until element is visible    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[1]/div
     Input Text    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[1]/form/input[2]    ${INV_InvoiceNo_NAV}    #search for invoice number
     Click Element    xpath=//html/body/div[1]/div[3]/div/div[1]/div/div[1]/div[2]/div[1]/form/input[4]
-    Wait until element is visible    ${waiting_for_results}
+    #Wait until element is visible    ${waiting_for_results}
     Wait until element is visible    id=sticky
     Element Text Should Be    xpath=//html/body/div[1]/div[3]/div/div[3]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[1]/td[2]    ${INV_InvoiceNo_NAV}
 
@@ -283,8 +290,8 @@ Get_cust_no
     Click Link    ${tab}
     Wait Until Page Contains Element    ${search_button}    10s
     Click Element    ${search_button}
-    Wait Until Element Is Visible    ${waiting_for_results}
-    Wait Until Element Is Not Visible    ${waiting_for_results}    15s
+    #Wait Until Element Is Visible    ${waiting_for_results}
+    #Wait Until Element Is Not Visible    ${waiting_for_results}    15s
     Element Should Not Contain    ${main_content}    There is a problem in the system. Please try again later.
     Wait Until Page Contains Element    ${search_results_cels}    30s
     : FOR    ${i}    IN RANGE    20
@@ -300,8 +307,8 @@ Get_LIS_APT_cust_no
     Click Link    ${tab}
     Wait Until Page Contains Element    ${search_button}    10s
     Click Element    ${search_button}
-    Wait Until Element Is Visible    ${waiting_for_results}
-    Wait Until Element Is Not Visible    ${waiting_for_results}    15s
+    #Wait Until Element Is Visible    ${waiting_for_results}
+    #Wait Until Element Is Not Visible    ${waiting_for_results}    15s
     Element Should Not Contain    ${main_content}    There is a problem in the system. Please try again later.
     Wait Until Page Contains Element    ${search_results_cels}    10s
     : FOR    ${i}    IN RANGE    100
@@ -317,8 +324,8 @@ Get_cust_name
     Click Link    ${tab}
     Wait Until Page Contains Element    ${search_button}    10s
     Click Element    ${search_button}
-    Wait Until Element Is Visible    ${waiting_for_results}
-    Wait Until Element Is Not Visible    ${waiting_for_results}    15s
+    #Wait Until Element Is Visible    ${waiting_for_results}
+    #Wait Until Element Is Not Visible    ${waiting_for_results}    15s
     Element Should Not Contain    ${main_content}    There is a problem in the system. Please try again later.
     Wait Until Page Contains Element    ${search_results_cels}    10s
     : FOR    ${i}    IN RANGE    100
@@ -334,8 +341,8 @@ Get_cust_id
     Click Link    ${tab}
     Wait Until Page Contains Element    ${search_button}    10s
     Click Element    ${search_button}
-    Wait Until Element Is Visible    ${waiting_for_results}
-    Wait Until Element Is Not Visible    ${waiting_for_results}    15s
+    #Wait Until Element Is Visible    ${waiting_for_results}
+    #Wait Until Element Is Not Visible    ${waiting_for_results}    15s
     Element Should Not Contain    ${main_content}    There is a problem in the system. Please try again later.
     Wait Until Page Contains Element    ${search_results_cels}    10s
     : FOR    ${i}    IN RANGE    100
@@ -351,8 +358,8 @@ Get_inv_no
     Click Link    ${tab}
     Wait Until Page Contains Element    ${search_button}    10s
     Click Element    ${search_button}
-    Wait Until Element Is Visible    ${waiting_for_results}
-    Wait Until Element Is Not Visible    ${waiting_for_results}    15s
+    #Wait Until Element Is Visible    ${waiting_for_results}
+    #Wait Until Element Is Not Visible    ${waiting_for_results}    15s
     Element Should Not Contain    ${main_content}    There is a problem in the system. Please try again later.
     Wait Until Page Contains Element    ${search_results_cels}    10s
     Sleep    5s
@@ -373,8 +380,8 @@ Get_rem_no
     Click Link    ${tab}
     Wait Until Page Contains Element    ${search_button}    10s
     Click Element    ${search_button}
-    Wait Until Element Is Visible    ${waiting_for_results}
-    Wait Until Element Is Not Visible    ${waiting_for_results}    15s
+    #Wait Until Element Is Visible    ${waiting_for_results}
+    #Wait Until Element Is Not Visible    ${waiting_for_results}    15s
     Element Should Not Contain    ${main_content}    There is a problem in the system. Please try again later.
     Wait Until Page Contains Element    ${search_results_cels}    10s
     Sleep    5s
@@ -397,8 +404,8 @@ Get_ExistingReferenceNo
     Wait Until Page Contains Element    ${all_inv_types_box}
     Select From List By Value    ${all_inv_types_box}    Invoice
     Click Element    ${search_button}
-    Wait Until Element Is Visible    ${waiting_for_results}
-    Wait Until Element Is Not Visible    ${waiting_for_results}    15s
+    #Wait Until Element Is Visible    ${waiting_for_results}
+    #Wait Until Element Is Not Visible    ${waiting_for_results}    15s
     Element Should Not Contain    ${main_content}    There is a problem in the system. Please try again later.
     Wait Until Page Contains Element    ${search_results_cels}    10s
     : FOR    ${i}    IN RANGE    40
