@@ -21,19 +21,25 @@ ${documents_table_cels}    xpath=//html/body/div/div[3]/div/div[3]/div[1]/div[2]
 ${documents_area_customer_card}    id=results-div
 ${all_posted_doc_button}    css=label.radiobutton-label
 ${documents_table_customer_card}    id=results-table
+#${websiteurl}	https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard # QA
+${websiteurl}	https://invoiceweb.lindorff.com 
+${browser}	ie
 
 *** Test Cases ***
 Load_IW_login
-    Open Browser    https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard    browser=ie    #load IW
+    Open Browser    ${websiteurl}    browser=${browser}    #load IW
     Maximize Browser window
     Input Text    name=ctl00$ContentPlaceHolder1$UsernameTextBox    jurgita.beisiniene@lindorff.com    #login
     Input Password    name=ctl00$ContentPlaceHolder1$PasswordTextBox    Lindorff123
     Click Element    ${sign_in_button}
+	Wait Until Element Is Visible	id=settings-button	15
+	Click Element    id=settings-button
+	Click Element    xpath=//div[@id='settings-menu']/ul/li[1]/a 
     Wait Until Page Contains    Search for Documents    15
 
 Customers_tab_returns_some_items
     [Documentation]    check if customers tab returns some items and "There is a problem in the system. Please try again later." is not shown
-    Run Keyword    Select_NAV_client    #select client
+    #Run Keyword    Select_NAV_client    #select client
     Click Link    Customers
     Wait Until Element Is Visible    ${search_button}    15
     Element Should Not Be Visible    ${waiting_for_results}
@@ -63,7 +69,7 @@ Customers_tab_returns_some_items
     ${search_items_no}    Convert To Number    ${search_items}
     Should Be True    '${search_items_no}'>'0'
     Run Keyword If    '${search_items_no}'=='20'    Page Should Contain Element    ${show_all}
-    Run Keyword    Select_APTIK_client    #select client
+    #Run Keyword    Select_APTIK_client    #select client
     Click Link    Customers
     Wait Until Element Is Visible    ${search_button}    15
     Element Should Not Be Visible    ${waiting_for_results}
@@ -83,7 +89,7 @@ Customers_tab_returns_some_items
 
 Ckeck_documents_list_NAV_client
     Click Link    Customers
-    Run Keyword    Select_NAV_client    #select client
+    #Run Keyword    Select_NAV_client    #select client
     Click Link    Customers
     Wait Until Element Is Visible    ${search_button}
     Click Element    ${search_button}
@@ -91,9 +97,8 @@ Ckeck_documents_list_NAV_client
     Wait Until Element Is Not Visible    ${waiting_for_results}    15s
     ${first_cust_no}    Get Table Cell    ${search results cels}    21    1
     Click Link    ${first_cust_no}
-    Wait Until Page Contains Element    ${InfoRibbon}
-    Wait Until Element Is Visible    ${waiting_for_results}
-    Wait Until Element Is Not Visible    ${waiting_for_results}    15s
+    #Wait Until Page Contains Element    ${InfoRibbon}
+    Wait Until Element Is Visible    id=results-table 
     Page Should Contain Element    id=results-table
     ${status_payment}    Run Keyword And Return Status    Element Should Contain    ${documents_table_customer_card}    Payment
     ${status_invoice}    Run Keyword And Return Status    Element Should Contain    ${documents_table_customer_card}    Invoice
@@ -116,7 +121,7 @@ Ckeck_documents_list_NAV_client
 Boxes_works_NAV_client
     [Documentation]    check boxes in customer card, basic information area
     Click Link    Customers
-    Run Keyword    Select_NAV_client    #select client
+    #Run Keyword    Select_NAV_client    #select client
     Click Link    Customers
     Wait Until Element Is Visible    ${search_button}
     Click Element    ${search_button}
@@ -161,7 +166,7 @@ Amounts_NAV_client
     ...    12. calculate unpaid amount (step-59)
     ...    13. check if open amount is correct/conforms (step-60)
     ...    14. check if unpaid amount is correct/conforms (step-61)
-    Run Keyword    Select_NAV_client    #select client
+    #Run Keyword    Select_NAV_client    #select client
     Click Link    Customers
     : FOR    ${i}    IN RANGE    20    #open customer card which has some documnts, does not have payments, credit invoices
     \    Wait Until Element Is Visible    ${search_button}    15

@@ -27,7 +27,8 @@ ${search_results_cels}    xpath=id('search-results-table')
 ${info_text}      css=div.info-text
 ${REM_rem_no}     css=td.value.wrap-word    # xpath=//html/body/div[1]/div[3]/div/div[3]/div[1]/div[1]/div[3]/div[2]/table/tbody/tr[1]/td[2]
 ${search_result_items}    css=tr.tody.#search-results-table    # xpath=//html/body/div[1]/div[3]/div/div[2]/table/tbody/tr
-${websiteurl}	https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard
+#${websiteurl}	https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard # QA
+${websiteurl}	https://invoiceweb.lindorff.com 
 ${browser}	ie
 ${DELAY}	1
 
@@ -35,7 +36,7 @@ ${DELAY}	1
 Load_IW_login
     Open Browser    ${websiteurl}    browser=${browser}    #load IW
     Maximize Browser window
-	Set Selenium Speed    ${DELAY} 
+	#Set Selenium Speed    ${DELAY} 
     Input Text    name=ctl00$ContentPlaceHolder1$UsernameTextBox    jurgita.beisiniene@lindorff.com    #login
     Input Password    name=ctl00$ContentPlaceHolder1$PasswordTextBox    Lindorff123
     Click Element    ${sign_in_button}
