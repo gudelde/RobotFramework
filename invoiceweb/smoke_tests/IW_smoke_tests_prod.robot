@@ -27,7 +27,7 @@ ${search results cels}    xpath=id('search-results-table')
 2_Select_EN_ language
     [Documentation]    1. check if settings menu button is visible, expected result - settings menu button is visible 2. open settings menu and select English language, expected result - settings menu button name is in English language
     Wait Until Page Contains Element	id=settings-button
-	Wait Until Element Is Visible    id=settings-menu	15
+	Wait Until Element Is Visible    id=settings-button	15
 	Click Element    id=settings-button
 	Click Element    xpath=//div[@id='settings-menu']/ul/li[1]/a
     Wait Until Page Contains    Search for Documents    15
