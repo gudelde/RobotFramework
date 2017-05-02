@@ -29,6 +29,7 @@ ${search results cels}    xpath=id('search-results-table')
     Wait Until Page Contains Element	id=settings-button
 	Wait Until Element Is Visible    id=settings-button	15
 	Click Element    id=settings-button
+	Wait Until Element Is Visible    id=settings-menu	15
 	Click Element    xpath=//div[@id='settings-menu']/ul/li[1]/a
     Wait Until Page Contains    Search for Documents    15
 
