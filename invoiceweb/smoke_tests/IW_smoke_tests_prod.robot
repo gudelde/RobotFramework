@@ -26,11 +26,11 @@ ${search results cels}    xpath=id('search-results-table')
 
 2_Select_EN_ language
     [Documentation]    1. check if settings menu button is visible, expected result - settings menu button is visible 2. open settings menu and select English language, expected result - settings menu button name is in English language
-    Wait Until Page Contains Element	id=settings-button
-	Wait Until Element Is Visible    id=settings-button	15
-	Click Element    id=settings-button
-	Wait Until Element Is Visible    id=settings-menu	15
-	Click Element    xpath=//div[@id='settings-menu']/ul/li[1]/a
+    Wait Until Page Contains Element    id=settings-button
+    Wait Until Element Is Visible    id=settings-button    15
+    Click Element    id=settings-button
+    Wait Until Element Is Visible    id=settings-menu    15
+    Click Element    xpath=//div[@id='settings-menu']/ul/li[1]/a
     Wait Until Page Contains    Search for Documents    15
 
 3_Select_NAV_client_check_it_is_selected
@@ -144,6 +144,11 @@ ${search results cels}    xpath=id('search-results-table')
 
 12_perform_reminders_search_returns_20items
     [Documentation]    1. open reminders tab, check if error message does not exist; expected result - reminders tab main containt does not have error message 2. click search button and check search result; expected result - search returned 20 items
+    Click Element    ${client_selection_button}    #open clients list
+    Wait until element is visible    Link=LähiTapiola
+    Click Element    Link=LähiTapiola    #select client
+    Wait Until Element Contains    ${client_selection_button}    LähiTapiola
+    Page Should Contain    Reminders
     Click Link    Reminders
     Wait Until Element Is Visible    ${search_button}    10
     Element Should Not Contain    ${main-content}    There is a problem in the system. Please try again later.
@@ -158,6 +163,100 @@ ${search results cels}    xpath=id('search-results-table')
 
 13_open_rem_card_check_boxes_exist
     [Documentation]    1. open the first reminder card and check available boxes; expected result - header box exist, reminder basic information box exist, settlements box exist, comments box exist
+    ${first_rem_no}    Get Table Cell    ${search results cels}    21    1
+    Click Link    ${first_rem_no}
+    Run Keyword And Ignore Error    Wait Until Element Is Visible    ${waiting_for_results}
+    Run Keyword And Ignore Error    Wait Until Element Is Not Visible    ${waiting_for_results}    10
+    Page Should Contain Element    id=sticky
+    Page Should Contain Element    css=div.content-box.shadow
+    ${number_of_boxes}    Get Matching Xpath Count    xpath=//html/body/div/div[3]/div/div[3]/div[1]/div
+    Should Be Equal    ${number_of_boxes}    2
+    Page Should Contain Element    css=div.page-content-right.shadow
+    Page should contain    BASIC INFORMATION
+    Page should contain    SETTLEMENTS
+    Page should contain    COMMENTS
+
+14_Select_LIS_client_repeat_tests
+    Click Element    ${client_selection_button}    #open clients list
+    Wait until element is visible    Link=Tansec Oy
+    Click Element    Link=Tansec Oy    #select client
+    Wait Until Element Contains    ${client_selection_button}    Tansec Oy
+    Run Keyword    5_perform_customers_search_returns_20items
+    Run Keyword    6_open_cust_card_check_boxes_exist
+    Run Keyword    7_perform_invoices_search_returns_20items
+    Run Keyword    8_open_inv_card_check_boxes_exist
+    Run Keyword    12_perform_reminders_search_returns_20items
+    Run Keyword    13_open_rem_card_check_boxes_exist
+
+*** Keywords ***
+5_perform_customers_search_returns_20items
+    Click Link    Customers
+    Wait Until Element Is Visible    ${search_button}    10
+    Element Should Not Contain    ${main-content}    There is a problem in the system. Please try again later.
+    Click Element    ${search_button}
+    Wait Until Element Is Visible    ${waiting_for_results}
+    Wait Until Element Is Not Visible    ${waiting_for_results}    10
+    Page Should Contain Element    ${search_results}
+    Element Should Not Contain    ${main-content}    There is a problem in the system. Please try again later.
+    ${search_items_count}    Get Matching Xpath Count    //html/body/div[1]/div[3]/div/div[2]/table/tbody/tr
+    ${search_items}    Convert To Integer    ${search_items_count}
+    Should Be True    '${search_items}'=='20'
+
+6_open_cust_card_check_boxes_exist
+    ${first_cust_no}    Get Table Cell    ${search results cels}    21    1
+    Click Link    ${first_cust_no}
+    Run Keyword And Ignore Error    Wait Until Element Is Visible    ${waiting_for_results}
+    Run Keyword And Ignore Error    Wait Until Element Is Not Visible    ${waiting_for_results}    10
+    Page Should Contain Element    id=sticky
+    Page Should Contain Element    css=div.content-box.shadow
+    ${number_of_boxes}    Get Matching Xpath Count    xpath=//html/body/div/div[3]/div/div[3]/div[1]/div
+    Should Be Equal    ${number_of_boxes}    2
+    Page Should Contain Element    css=div.page-content-right.shadow
+    Page should contain    BASIC INFORMATION
+    Page should contain    DOCUMENTS
+    Page should contain    COMMENTS
+
+7_perform_invoices_search_returns_20items
+    Click Link    Invoices
+    Wait Until Element Is Visible    ${search_button}    10
+    Element Should Not Contain    ${main-content}    There is a problem in the system. Please try again later.
+    Click Element    ${search_button}
+    Wait Until Element Is Visible    ${waiting_for_results}
+    Wait Until Element Is Not Visible    ${waiting_for_results}    10
+    Page Should Contain Element    ${search_results}
+    Element Should Not Contain    ${main-content}    There is a problem in the system. Please try again later.
+    ${search_items_count}    Get Matching Xpath Count    //html/body/div[1]/div[3]/div/div[2]/table/tbody/tr
+    ${search_items}    Convert To Integer    ${search_items_count}
+    Should Be True    '${search_items}'=='20'
+
+8_open_inv_card_check_boxes_exist
+    ${first_inv_no}    Get Table Cell    ${search results cels}    21    1
+    Click Link    ${first_inv_no}
+    Run Keyword And Ignore Error    Wait Until Element Is Visible    ${waiting_for_results}
+    Run Keyword And Ignore Error    Wait Until Element Is Not Visible    ${waiting_for_results}    10
+    Page Should Contain Element    id=sticky
+    Page Should Contain Element    css=div.content-box.shadow
+    ${number_of_boxes}    Get Matching Xpath Count    xpath=//html/body/div/div[3]/div/div[3]/div[1]/div
+    Should Be Equal    ${number_of_boxes}    2
+    Page Should Contain Element    css=div.page-content-right.shadow
+    Page should contain    BASIC INFORMATION
+    Page should contain    SETTLEMENTS
+    Page should contain    COMMENTS
+
+12_perform_reminders_search_returns_20items
+    Click Link    Reminders
+    Wait Until Element Is Visible    ${search_button}    10
+    Element Should Not Contain    ${main-content}    There is a problem in the system. Please try again later.
+    Click Element    ${search_button}
+    Wait Until Element Is Visible    ${waiting_for_results}
+    Wait Until Element Is Not Visible    ${waiting_for_results}    10
+    Page Should Contain Element    ${search_results}
+    Element Should Not Contain    ${main-content}    There is a problem in the system. Please try again later.
+    ${search_items_count}    Get Matching Xpath Count    //html/body/div[1]/div[3]/div/div[2]/table/tbody/tr
+    ${search_items}    Convert To Integer    ${search_items_count}
+    Should Be True    '${search_items}'=='20'
+
+13_open_rem_card_check_boxes_exist
     ${first_rem_no}    Get Table Cell    ${search results cels}    21    1
     Click Link    ${first_rem_no}
     Run Keyword And Ignore Error    Wait Until Element Is Visible    ${waiting_for_results}
