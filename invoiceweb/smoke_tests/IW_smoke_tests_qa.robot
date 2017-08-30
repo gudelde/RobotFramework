@@ -17,8 +17,8 @@ ${search results cels}    xpath=id('search-results-table')
     [Documentation]    1. load IW 2. login and expect that sign out button is visible and no error message appears
     Open Browser    https://invoicetest.lindorff.fi/InvoiceWeb/200362/Home/Dashboard    browser=chrome    #load IW
     Maximize Browser window
-    Input Text    name=ctl00$ContentPlaceHolder1$UsernameTextBox    jurgita.beisiniene@lindorff.com    #login
-    Input Password    name=ctl00$ContentPlaceHolder1$PasswordTextBox    Lindorff123
+    Input Text    name=ctl00$ContentPlaceHolder1$UsernameTextBox    testuser4@lindorff.fi    #login
+    Input Password    name=ctl00$ContentPlaceHolder1$PasswordTextBox    AccessRocks1
     Click Element    ${sign_in_button}
     Wait Until Element Is Not Visible    id=ctl00_ContentPlaceHolder1_UsernameTextBox
     Wait Until Element Is Visible    id=logout    15
